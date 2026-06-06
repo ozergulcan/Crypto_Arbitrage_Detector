@@ -1,55 +1,74 @@
-# Multi-Exchange Crypto Arbitrage Detector / Team23-APPLIED SQL
+# Multi-Exchange Crypto Arbitrage Detector 
 
-## 📊 Project Description
-This project aims to detect arbitrage opportunities in cryptocurrency markets using SQL. Arbitrage refers to making profit from price differences of the same asset across different exchanges.
+A full-stack data engineering and financial analysis project built for the **MTM4692 Applied SQL** course. This project identifies real, profitable arbitrage opportunities across major cryptocurrency exchanges by analyzing historical price data and accounting for exchange-specific trading fees.
 
-In this project, Bitcoin (BTC) price data from multiple exchanges is analyzed. The system compares prices across exchanges and identifies potential arbitrage opportunities by considering transaction costs.
+## Project Overview
 
-## 📁 Datasets
-The project uses historical BTC price data from the following exchanges:
+Cryptocurrency prices can vary across different platforms. While these price differences (spreads) seem like immediate profit opportunities, transaction costs (maker/taker fees) often turn potential profits into losses. 
 
-- Binance (BTC/USDT)
-- Coinbase (BTC/USD)
-- Bitfinex (BTC/USD)
-- Bitstamp (BTC/USD)
+This system ingests raw market data from four major exchanges, cleans and standardizes it, and uses an SQLite database with advanced SQL views to calculate the **Net Profit** of transferring assets between exchanges. The results are visualized using a Flask-based web dashboard.
 
-All datasets are stored in the `data/` folder.
+### Analyzed Exchanges
+* Binance
+* Coinbase
+* Bitfinex
+* Bitstamp
 
-## 🧠 Methodology
-- Data from different exchanges is collected and standardized
-- Price differences are calculated for the same timestamps
-- Transaction costs (taker fees) are included in the calculations
-- Only profitable arbitrage opportunities are selected
+## Technologies Used
+* **Database:** SQLite
+* **Data Processing:** Python (Pandas), SQL
+* **Backend:** Flask (Python)
+* **Frontend:** HTML5, Bootstrap 5, Chart.js
 
-## 🏗️ System Design
-The system is based on a relational database structure with the following main tables:
+##  Project Structure
 
-- Exchanges
-- Assets
-- MarketData
-- TradingFees
+\`\`\`text
+Crypto_Arbitrage_Detector/
+│
+├── data/                       # Raw CSV data files from exchanges
+├── sql/                        # SQL scripts for schema, cleaning, and analysis
+│   ├── 01_create_schema.sql
+│   ├── 03_clean_and_load.sql
+│   ├── 04_arbitrage_analysis.sql
+│   └── 05_save_logs.sql
+├── templates/                  # Frontend HTML templates
+│   └── index.html              # Dashboard UI
+├── 02_load_data.py             # Python script for data ingestion
+├── app.py                      # Flask web server and SQL connector
+├── crypto_arbitrage.db         # Generated SQLite database
+└── README.md                   # Project documentation
+\`\`\`
 
-Data from different exchanges is combined into a single structure to allow comparison across markets.
+##  Installation & Setup
 
-## ⚙️ Technologies Used
-- SQL (data storage and analysis)
-- CSV datasets
-- GitHub (version control)
+Follow these steps to run the project locally:
 
-## 🌐 Web Application
-A web application will be developed to visualize arbitrage opportunities.
+**1. Clone the repository**
+\`\`\`bash
+git clone https://github.com/ozergulcan/Crypto_Arbitrage_Detector.git
+cd Crypto_Arbitrage_Detector
+\`\`\`
 
-Technologies used:
-- Python
-- Streamlit (for building the web interface)
-- Pandas (data processing)
+**2. Install required Python packages**
+\`\`\`bash
+pip install flask pandas
+\`\`\`
 
-The application will allow users to:
-- Compare prices across exchanges
-- View arbitrage opportunities
-- Analyze price differences over time
+**3. Initialize the database and load data**
+Ensure your raw CSV files are inside the `data/` folder, then run the ingestion script:
+\`\`\`bash
+python 02_load_data.py
+\`\`\`
+*(Note: You must execute the SQL scripts in the `sql/` folder in numerical order to build the schema, clean the data, and create the analysis views.)*
 
-## 📝 Notes
-- USDT is assumed to be equivalent to USD for simplification
-- The analysis focuses only on Bitcoin (BTC)
-- SQL queries and analysis are included in the project report
+**4. Run the Web Dashboard**
+\`\`\`bash
+python app.py
+\`\`\`
+
+**5. View the Dashboard**
+Open your web browser and navigate to: `http://127.0.0.1:5000/`
+
+## 👥 Team Members
+* **Gülcan Özer** * **Ecem Demir**   ##  License
+This project was developed for academic purposes as part of the MTM4692 Applied SQL curriculum.

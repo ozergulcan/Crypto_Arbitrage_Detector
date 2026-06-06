@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Arbitrage Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .navbar-brand { font-weight: 700; letter-spacing: 0.5px; }
+        .card { border: none; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.04); }
+        .kpi-card { border-left: 5px solid #4f46e5; }
+        .table-responsive { background: #ffffff; border-radius: 10px; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.04); }
+        th { background-color: #f8fafc !important; color: #64748b; text-transform: uppercase; font-size: 0.85rem; font-weight: 600; }
+        .route-item { border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 8px; }
+        .route-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="bi bi-currency-bitcoin"></i> Crypto Arbitrage Detector</a>
+            <span class="navbar-text text-white-50">MTM4692 Applied SQL Project</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card p-3 kpi-card">
+                    <small class="text-muted fw-semibold">Total Profitable Opportunities</small>
+                    <h3 class="text-dark mt-1 fw-bold">{{ kpis.total_opportunities }}</h3>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-3 kpi-card" style="border-left-color: #10b981;">
+                    <small class="text-muted fw-semibold">Max Net Profit (%)</small>
+                    <h3 class="text-success mt-1 fw-bold">{{ kpis.max_net_profit }}%</h3>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-3 kpi-card" style="border-left-color: #3b82f6;">
+                    <small class="text-muted fw-semibold">Average Net Profit (%)</small>
+                    <h3 class="text-primary mt-1 fw-bold">{{ kpis.avg_net_profit }}%</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-lg-4 mb-4">
+                <div class="card p-4 mb-4">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-signpost-split text-primary"></i> Top Arbitrage Routes</h5>
+                    <div class="text-muted small mb-3">Most frequent profitable paths between exchanges based on historical data.</div>
+                    {% for route in best_routes %}
+                    <div class="route-item d-flex justify-content-between align-items-center">
+                        <span class="fw-semibold text-dark">
+                            {{ route.buy_exchange }} <i class="bi bi-arrow-right text-success"></i> {{ route.sell_exchange }}
+                        </span>
+                        <span class="badge bg-primary rounded-pill">{{ route.opp_count }} times</span>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="card p-4 mb-4">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-bank text-warning"></i> Exchange Fees Info</h5>
+                    <table class="table table-sm table-borderless mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-0">Exchange</th>
+                                <th>Taker</th>
+                                <th>Maker</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for fee in fees %}
+                            <tr>
+                                <td class="ps-0 fw-semibold text-secondary">{{ fee.exchange_name }}</td>
+                                <td>{{ fee.taker_fee }}</td>
+                                <td>{{ fee.maker_fee }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card p-3">
+                    <h6 class="fw-bold text-muted mb-2">Top Pairs Distribution</h6>
+                    <canvas id="pairChart" height="200"></canvas>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="table-responsive">
+                    <div class="d-flex justify-content-between align-content-center mb-3">
+                        <h5 class="fw-bold my-auto">Arbitrage Opportunity List</h5>
+                        <span class="badge bg-light text-dark my-auto">Top 100 records listed</span>
+                    </div>
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Buy Exchange</th>
+                                <th>Sell Exchange</th>
+                                <th>Buy Price</th>
+                                <th>Sell Price</th>
+                                <th>Gross Pct</th>
+                                <th>Net Pct</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if opportunities %}
+                                {% for row in opportunities %}
+                                <tr>
+                                    <td class="text-nowrap small fw-semibold text-secondary">{{ row.trade_date }}</td>
+                                    <td><span class="badge bg-secondary-subtle text-secondary-emphasis">{{ row.buy_exchange }}</span></td>
+                                    <td><span class="badge bg-dark-subtle text-dark-emphasis">{{ row.sell_exchange }}</span></td>
+                                    <td class="small">${{ "%.2f"|format(row.buy_price) }}</td>
+                                    <td class="small">${{ "%.2f"|format(row.sell_price) }}</td>
+                                    <td class="small text-muted">{{ row.gross_profit_pct }}%</td>
+                                    {% if row.net_profit_pct > 0 %}
+                                        <td class="fw-bold text-success">{{ row.net_profit_pct }}%</td>
+                                    {% else %}
+                                        <td class="fw-bold text-danger">{{ row.net_profit_pct }}%</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-4">No data available. Please run data ingestion scripts.</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('pairChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ chart_labels | tojson }},
+                datasets: [{
+                    label: 'Opportunity Count',
+                    data: {{ chart_values | tojson }},
+                    backgroundColor: '#4f46e5',
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: { x: { grid: { display: false } }, y: { grid: { display: false } } }
+            }
+        });
+    </script>
+</body>
+</html>

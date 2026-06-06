@@ -22,7 +22,7 @@ This system ingests raw market data from four major exchanges, cleans and standa
 
 ##  Project Structure
 
-\`\`\`text
+
 Crypto_Arbitrage_Detector/
 │
 ├── data/                       # Raw CSV data files from exchanges
@@ -37,7 +37,7 @@ Crypto_Arbitrage_Detector/
 ├── app.py                      # Flask web server and SQL connector
 ├── crypto_arbitrage.db         # Generated SQLite database
 └── README.md                   # Project documentation
-\`\`\`
+
 
 ##  Installation & Setup
 

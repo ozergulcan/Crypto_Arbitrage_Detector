@@ -1,8 +1,8 @@
-# Multi-Exchange Crypto Arbitrage Detector 
+# Multi-Exchange Crypto Arbitrage Detector 📊📉
 
 A full-stack data engineering and financial analysis project built for the **MTM4692 Applied SQL** course. This project identifies real, profitable arbitrage opportunities across major cryptocurrency exchanges by analyzing historical price data and accounting for exchange-specific trading fees.
 
-## Project Overview
+## 🚀 Project Overview
 
 Cryptocurrency prices can vary across different platforms. While these price differences (spreads) seem like immediate profit opportunities, transaction costs (maker/taker fees) often turn potential profits into losses. 
 
@@ -14,32 +14,42 @@ This system ingests raw market data from four major exchanges, cleans and standa
 * Bitfinex
 * Bitstamp
 
-## Technologies Used
+## 🛠️ Technologies Used
 * **Database:** SQLite
 * **Data Processing:** Python (Pandas), SQL
 * **Backend:** Flask (Python)
 * **Frontend:** HTML5, Bootstrap 5, Chart.js
 
-##  Project Structure
+## 📁 Project Structure
 
+Below is the complete directory structure of the project, separating raw data, database scripts, and the web application into a clean, modular architecture.
 
+\`\`\`text
 Crypto_Arbitrage_Detector/
 │
-├── data/                       # Raw CSV data files from exchanges
-├── sql/                        # SQL scripts for schema, cleaning, and analysis
-│   ├── 01_create_schema.sql
-│   ├── 03_clean_and_load.sql
-│   ├── 04_arbitrage_analysis.sql
-│   └── 05_save_logs.sql
-├── templates/                  # Frontend HTML templates
-│   └── index.html              # Dashboard UI
-├── 02_load_data.py             # Python script for data ingestion
-├── app.py                      # Flask web server and SQL connector
-├── crypto_arbitrage.db         # Generated SQLite database
-└── README.md                   # Project documentation
+├── 📁 data/                        # Raw historical market data from exchanges
+│   ├── 📄 Binance_BTCUSDT_d.csv    # Binance daily price data
+│   ├── 📄 Bitfinex_BTCUSD_d.csv    # Bitfinex daily price data
+│   ├── 📄 Bitstamp_BTCUSD_d.csv    # Bitstamp daily price data
+│   └── 📄 COINBASE_BTCUSD.csv      # Coinbase daily price data
+│
+├── 📁 sql/                         # Core SQL scripts for the database pipeline
+│   ├── 📜 01_create_schema.sql     # Table, view, and relationship definitions
+│   ├── 📜 03_clean_and_load.sql    # Data transformation and cleaning operations
+│   ├── 📜 04_arbitrage_analysis.sql# Complex queries for detecting spreads
+│   └── 📜 05_save_logs.sql         # Logging profitable routes to database
+│
+├── 📁 templates/                   # Frontend web assets
+│   └── 🌐 index.html               # Main dashboard UI (Bootstrap 5 & Chart.js)
+│
+├── 🐍 02_load_data.py              # Python script to ingest CSVs into SQLite staging
+├── 🐍 app.py                       # Flask application backend & database connector
+├── 🗄️ crypto_arbitrage.db          # SQLite database (generated automatically)
+├── 📑 Team23_MTM4692_Milestone1.pdf# Initial project report and SQL design documentation
+└── 📖 README.md                    # Project documentation and setup guide
+\`\`\`
 
-
-##  Installation & Setup
+## ⚙️ Installation & Setup
 
 Follow these steps to run the project locally:
 
@@ -69,6 +79,9 @@ python app.py
 **5. View the Dashboard**
 Open your web browser and navigate to: `http://127.0.0.1:5000/`
 
-## 👥 Team Members
-* **Gülcan Özer** * **Ecem Demir**   ##  License
+##  Team Members
+* **Gülcan Özer**
+* **Ecem Demir**
+
+##  License
 This project was developed for academic purposes as part of the MTM4692 Applied SQL curriculum.

@@ -24,30 +24,25 @@ This system ingests raw market data from four major exchanges, cleans and standa
 
 Below is the complete directory structure of the project, separating raw data, database scripts, and the web application into a clean, modular architecture.
 
-\`\`\`text
+```text
 Crypto_Arbitrage_Detector/
-│
-├── 📁 data/                        # Raw historical market data from exchanges
-│   ├── 📄 Binance_BTCUSDT_d.csv    # Binance daily price data
-│   ├── 📄 Bitfinex_BTCUSD_d.csv    # Bitfinex daily price data
-│   ├── 📄 Bitstamp_BTCUSD_d.csv    # Bitstamp daily price data
-│   └── 📄 COINBASE_BTCUSD.csv      # Coinbase daily price data
-│
-├── 📁 sql/                         # Core SQL scripts for the database pipeline
-│   ├── 📜 01_create_schema.sql     # Table, view, and relationship definitions
-│   ├── 📜 03_clean_and_load.sql    # Data transformation and cleaning operations
-│   ├── 📜 04_arbitrage_analysis.sql# Complex queries for detecting spreads
-│   └── 📜 05_save_logs.sql         # Logging profitable routes to database
-│
-├── 📁 templates/                   # Frontend web assets
-│   └── 🌐 index.html               # Main dashboard UI (Bootstrap 5 & Chart.js)
-│
-├── 🐍 02_load_data.py              # Python script to ingest CSVs into SQLite staging
-├── 🐍 app.py                       # Flask application backend & database connector
-├── 🗄️ crypto_arbitrage.db          # SQLite database (generated automatically)
-├── 📑 Team23_MTM4692_Milestone1.pdf# Initial project report and SQL design documentation
-└── 📖 README.md                    # Project documentation and setup guide
-\`\`\`
+├── 📁 data/
+│   ├── 📄 Binance_BTCUSDT_d.csv
+│   ├── 📄 Bitfinex_BTCUSD_d.csv
+│   ├── 📄 Bitstamp_BTCUSD_d.csv
+│   └── 📄 COINBASE_BTCUSD.csv
+├── 📁 sql/
+│   ├── 📜 01_create_schema.sql
+│   ├── 📜 03_clean_and_load.sql
+│   ├── 📜 04_arbitrage_analysis.sql
+│   └── 📜 05_save_logs.sql
+├── 📁 templates/
+│   └── 🌐 index.html
+├── 🐍 02_load_data.py
+├── 🐍 app.py
+├── 🗄️ crypto_arbitrage.db
+├── 📑 Team23_MTM4692_Milestone1.pdf
+└── 📖 README.md
 
 ## ⚙️ Installation & Setup
 

@@ -43,6 +43,8 @@ Crypto_Arbitrage_Detector/
 ├── 🗄️ crypto_arbitrage.db
 ├── 📑 Team23_MTM4692_Milestone1.pdf
 └── 📖 README.md
+```
+
 
 ## ⚙️ Installation & Setup
 

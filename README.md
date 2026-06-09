@@ -2,6 +2,8 @@
 
 A full-stack data engineering and financial analysis project built for the **MTM4692 Applied SQL** course. This project identifies real, profitable arbitrage opportunities across major cryptocurrency exchanges by analyzing historical price data and accounting for exchange-specific trading fees.
 
+Presentation video: https://drive.google.com/file/d/11h5s1vp9OCLFvkKxE2S8plmbhJuB40-g/view?usp=sharing
+
 ## 🚀 Project Overview
 
 Cryptocurrency prices can vary across different platforms. While these price differences (spreads) seem like immediate profit opportunities, transaction costs (maker/taker fees) often turn potential profits into losses. 
